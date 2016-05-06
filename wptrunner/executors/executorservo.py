@@ -309,13 +309,14 @@ class ServoWdspecProtocol(Protocol):
             self.executor.runner.send_message("init_succeeded")
 
     def teardown(self):
-        try:
-            if self.session.session_id is not None:
-                self.session.end()
-        except Exception:
-            pass
-        if self.server is not None and self.server.is_alive:
-            self.server.stop()
+        if self.server is not None:
+            try:
+                if self.session.session_id is not None:
+                    self.session.end()
+            except Exception:
+                pass
+            if self.server.is_alive:
+                self.server.stop()
 
     @property
     def is_alive(self):
