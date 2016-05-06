@@ -16,7 +16,8 @@ import mozprocess
 
 
 __all__ = ["SeleniumServer", "ChromeDriverServer",
-           "GeckoDriverServer", "WebDriverServer"]
+           "GeckoDriverServer", "ServoDriverServer",
+           "WebDriverServer"]
 
 
 class WebDriverServer(object):
@@ -152,6 +153,17 @@ class GeckoDriverServer(WebDriverServer):
                 "--marionette-port", str(self.marionette_port),
                 "--webdriver-host", self.host,
                 "--webdriver-port", str(self.port)]
+
+
+class ServoDriverServer(WebDriverServer):
+    def __init__(self, logger, binary="servo", host="127.0.0.1", port=None):
+        env = os.environ.copy()
+        env["RUST_BACKTRACE"] = "1"
+        WebDriverServer.__init__(self, logger, binary, host=host, port=port, env=env)
+
+    def make_command(self):
+        return [self.binary,
+                "--webdriver", str(self.port)]
 
 
 def cmd_arg(name, value=None):
