@@ -239,7 +239,7 @@ def main():
         else:
             return not run_tests(**kwargs)
     except Exception:
-        if kwargs.get("pdb"):
+        if kwargs["pdb"]:
             import pdb, traceback
             print traceback.format_exc()
             pdb.post_mortem()
