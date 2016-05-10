@@ -293,7 +293,7 @@ class ServoWdspecProtocol(Protocol):
 
     def setup(self, runner):
         try:
-            self.server = ServoDriverServer(self.logger, binary=self.browser.binary)
+            self.server = ServoDriverServer(self.logger, binary=self.browser.binary, binary_args=self.browser.binary_args)
             self.server.start(block=False)
             self.logger.info(
                 "WebDriver HTTP server listening at %s" % self.server.url)
