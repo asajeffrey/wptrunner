@@ -156,14 +156,25 @@ class GeckoDriverServer(WebDriverServer):
 
 
 class ServoDriverServer(WebDriverServer):
-    def __init__(self, logger, binary="servo", binary_args=[], host="127.0.0.1", port=None):
+    def __init__(self, logger, binary="servo", binary_args=None, host="127.0.0.1", port=None, render_backend=None):
         env = os.environ.copy()
         env["RUST_BACKTRACE"] = "1"
         WebDriverServer.__init__(self, logger, binary, host=host, port=port, env=env)
         self.binary_args = binary_args
+        self.render_backend = render_backend
 
     def make_command(self):
-        return [self.binary, "--webdriver", str(self.port)] + self.binary_args
+        command = [self.binary,
+                   "--webdriver", str(self.port),
+                   "--hard-fail",
+                   "--headless"]
+        if self.binary_args:
+            command += self.binary_args
+        if self.render_backend == "cpu":
+            command += ["--cpu"]
+        elif self.render_backend == "webrender":
+            command += ["--webrender"]
+        return command
 
 
 def cmd_arg(name, value=None):
