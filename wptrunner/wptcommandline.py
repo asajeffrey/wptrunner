@@ -131,6 +131,10 @@ scheme host and port.""")
                               help="Path to directory containing extra json files to add to run info")
     config_group.add_argument("--product", action="store", choices=product_choices,
                               default=None, help="Browser against which to run tests")
+    config_group.add_argument("--host", action="store", dest="host",
+                              help="The server host")
+    config_group.add_argument("--external-host", action="store", dest="external_host",
+                              help="The server host name")
     config_group.add_argument("--config", action="store", type=abs_path, dest="config",
                               help="Path to config file")
 
