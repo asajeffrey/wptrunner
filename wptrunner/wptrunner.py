@@ -148,8 +148,8 @@ def run_tests(config, test_paths, product, **kwargs):
 
         kwargs["pause_after_test"] = get_pause_after_test(test_loader, **kwargs)
 
-        env_options["host"] = kwargs.get("host") or env_options["host"]
-        env_options["external_host"] = kwargs.get("external_host") or env_options["external_host"]
+        env_options["host"] = kwargs.get("host", env_options["host"])
+        env_options["external_host"] = kwargs.get("external_host", env_options["external_host"])
 
         with env.TestEnvironment(test_paths,
                                  ssl_env,
